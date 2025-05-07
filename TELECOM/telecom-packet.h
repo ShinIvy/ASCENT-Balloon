@@ -49,6 +49,10 @@ int telecomPacket_encode(const telecomPacket *packet, uint8_t buffer[TELECOM_PAC
 
 int telecomPacket_decode(const uint8_t buffer[TELECOM_PACKET_N_BYTES], telecomPacket *packet);
 
+String telecomPacket_sourceToLabel(const telecomPacket_source source);
+
+String telecomPacket_typeToLabel(const telecomPacket_type type);
+
 telecomPacket_dataType telecomPacket_typeToDataType(const telecomPacket_type type);
 
 uint32_t telecomPacket_parse_uint32(const telecomPacket *packet);
