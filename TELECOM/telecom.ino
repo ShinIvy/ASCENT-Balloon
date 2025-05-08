@@ -33,7 +33,7 @@ void telecom_rx(String rxLogFilePath) {
       }
 
       String rawPacketStr = bytesToHex(buffer, TELECOM_PACKET_N_BYTES);
-      Serial.print("[telecom] Packet: ");
+      Serial.print("[telecom] Raw packet: ");
       Serial.println(rawPacketStr);
 
       telecomPacket packet;
@@ -42,26 +42,28 @@ void telecom_rx(String rxLogFilePath) {
         return;
       }
 
+      String sourceLabel = telecomPacket_sourceToLabel(packet.source);
+      String typeLabel = telecomPacket_typeToLabel(packet.type);
       telecomPacket_dataType dataType = telecomPacket_typeToDataType(packet.type);
 
       switch (dataType) {
         case TELECOM_PACKET_DATA_TYPE_UINT32:
           {
             uint32_t value = telecomPacket_parse_uint32(&packet);
-            packetStr = String(packet.timestamp) + "," + String(packet.source) + "," + String(packet.type) + "," + String(value);
+            packetStr = String(packet.timestamp) + "," + sourceLabel + "," + typeLabel + "," + String(value);
             break;
           }
         case TELECOM_PACKET_DATA_TYPE_FLOAT:
           {
             float value = telecomPacket_parse_float(&packet);
-            packetStr = String(packet.timestamp) + "," + String(packet.source) + "," + String(packet.type) + "," + String(value);
+            packetStr = String(packet.timestamp) + "," + sourceLabel + "," + typeLabel + "," + String(value);
             break;
           }
         default:
           {
             Serial.println("[telecom] Packet data type unsupported.");
             String rawValueStr = bytesToHex(packet.data, TELECOM_PACKET_N_DATA_BYTES);
-            packetStr = String(packet.timestamp) + "," + String(packet.source) + "," + String(packet.type) + "," + rawValueStr;
+            packetStr = String(packet.timestamp) + "," + sourceLabel + "," + typeLabel + "," + rawValueStr;
           }
       }
     } else {
@@ -71,7 +73,7 @@ void telecom_rx(String rxLogFilePath) {
       }
     }
 
-    Serial.print("[telecom] Received packet: ");
+    Serial.print("[telecom] Decoded packet: ");
     Serial.println(packetStr);
 
     if (rxLogFilePath != "") {

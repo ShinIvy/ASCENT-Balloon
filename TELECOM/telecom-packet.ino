@@ -60,6 +60,50 @@ int telecomPacket_decode(const uint8_t buffer[TELECOM_PACKET_N_BYTES], telecomPa
   return 0;
 }
 
+String telecomPacket_sourceToLabel(const telecomPacket_source source) {
+  switch (source) {
+    case TELECOM_PACKET_SOURCE_VEREST:
+      return "verest";
+    case TELECOM_PACKET_SOURCE_ASCENT:
+      return "ascent";
+    default:
+      return "unknown";
+  }
+}
+
+String telecomPacket_typeToLabel(const telecomPacket_type type) {
+  switch (type) {
+    case TELECOM_PACKET_TYPE_TEMPERATURE:
+      return "temperature";
+    case TELECOM_PACKET_TYPE_PRESSURE:
+      return "pressure";
+    case TELECOM_PACKET_TYPE_GYRO_X:
+      return "gyro_x";
+    case TELECOM_PACKET_TYPE_GYRO_Y:
+      return "gyro_y";
+    case TELECOM_PACKET_TYPE_GYRO_Z:
+      return "gyro_z";
+    case TELECOM_PACKET_TYPE_ACC_X:
+      return "acc_x";
+    case TELECOM_PACKET_TYPE_ACC_Y:
+      return "acc_y";
+    case TELECOM_PACKET_TYPE_ACC_Z:
+      return "acc_z";
+    case TELECOM_PACKET_TYPE_HUMIDITY:
+      return "humidity";
+    case TELECOM_PACKET_TYPE_GPS_TIME:
+      return "gps_time";
+    case TELECOM_PACKET_TYPE_GPS_LAT:
+      return "gps_lat";
+    case TELECOM_PACKET_TYPE_GPS_LON:
+      return "gps_lon";
+    case TELECOM_PACKET_TYPE_ILLUMINANCE:
+      return "illuminance";
+    default:
+      return "unknown";
+  }
+}
+
 telecomPacket_dataType telecomPacket_typeToDataType(telecomPacket_type type) {
   switch (type) {
     case TELECOM_PACKET_TYPE_GPS_TIME:
